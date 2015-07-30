@@ -1,3 +1,7 @@
+// Flags
+enable_cutout = true;
+enable_clip = true;
+
 // Card
 id1_width = 85.60;
 id1_height = 53.98;
@@ -5,7 +9,7 @@ margin = 5;
 cutout_d = id1_height/2;
 cutout_offset = 5;
 radius_rounded_corners = 3;
-enable_cutout = true;
+
 
 // Hooks
 
@@ -87,6 +91,7 @@ difference() {
         translate([hook_margin+i*(hook_length+hook_margin), full_height, 0])
             mirror([0, 1, 0])
                 hook();
-    translate([(full_width-clip_width-cutout_d/2-cutout_offset)/2, full_height/2])
-        clip();
+    if(enable_clip)
+        translate([(full_width-clip_width-cutout_d/2-cutout_offset)/2, full_height/2])
+            clip();
 }
