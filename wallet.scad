@@ -10,9 +10,7 @@ cutout_d = id1_height/2;
 cutout_offset = 5;
 radius_rounded_corners = 3;
 
-
 // Hooks
-
 hook_gap = 2;
 hook_length = 15;
 hook_stem = 5;
@@ -29,7 +27,6 @@ $fn = 50;
 full_height = id1_height+2*margin;
 full_width = id1_width;
 cutout_d_pre = cutout_d+2*radius_rounded_corners;
-
 hook_margin = (full_width - hook_per_side*hook_length)/(hook_per_side+1);
 
 module card() {
