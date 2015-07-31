@@ -2,25 +2,33 @@
 enable_cutout = true;
 enable_clip = true;
 
-// Card
+// ISO/IEC 7810 ID-1 card measurements
 id1_width = 85.60;
 id1_height = 53.98;
+// Additional margins on the side for hooks
 margin = 7;
+// Diameter of cutout
 cutout_d = id1_height/2;
+// Additional offset towards center of cutout
 cutout_offset = 5;
+// Rounded corners 
 radius_rounded_corners = 1;
 
-// Hooks
+// Gap size of hooks
 hook_gap = 4;
+// Length of a hook (incl. gap)
 hook_length = 50;
+// Width of stem of hook
 hook_stem = hook_length - 4*hook_gap;
+// Number of hooks per side
 hook_per_side = 1;
 
-// Clip
-clip_hole_d = 3;
+// Money clip
 clip_width = 40;
 clip_height = 30;
 clip_gap = 1;
+// Diameter of holes of clip
+clip_hole_d = 3;
 
 // Here be dragons
 $fn = 50;
