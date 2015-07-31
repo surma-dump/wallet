@@ -5,21 +5,21 @@ enable_clip = true;
 // Card
 id1_width = 85.60;
 id1_height = 53.98;
-margin = 5;
+margin = 7;
 cutout_d = id1_height/2;
 cutout_offset = 5;
-radius_rounded_corners = 3;
+radius_rounded_corners = 1;
 
 // Hooks
-hook_gap = 2;
-hook_length = 15;
-hook_stem = 5;
-hook_per_side = 3;
+hook_gap = 4;
+hook_length = 50;
+hook_stem = hook_length - 4*hook_gap;
+hook_per_side = 1;
 
 // Clip
 clip_hole_d = 3;
 clip_width = 40;
-clip_height = 15;
+clip_height = 30;
 clip_gap = 1;
 
 // Here be dragons
@@ -30,20 +30,22 @@ cutout_d_pre = cutout_d+2*radius_rounded_corners;
 hook_margin = (full_width - hook_per_side*hook_length)/(hook_per_side+1);
 
 module card() {
-    minkowski() {
-        circle(r=radius_rounded_corners);
-        offset(delta=-radius_rounded_corners)
-            difference() {
-                square([full_width, full_height]);
-                if(enable_cutout)
-                    translate([full_width-cutout_offset, full_height/2, 0])
-                        union() {
-                            circle(d=cutout_d);
-                            translate([0, -cutout_d/2])
-                                square([cutout_offset, cutout_d]);
-                        }
-            }
+    difference() {
+        square([full_width, full_height]);
+        if(enable_cutout)
+            translate([full_width-cutout_offset, full_height/2, 0])
+                union() {
+                    circle(d=cutout_d);
+                    translate([0, -cutout_d/2])
+                        square([cutout_offset, cutout_d]);
+                }
     }
+}
+
+module round_corners(r=1) {
+    offset(r=r)
+        offset(delta=-r)
+            children();
 }
 
 module hook() {
@@ -62,7 +64,8 @@ module hook() {
 
 module copy_mirror(vec=[0,1,0]) { 
     children(); 
-    mirror(vec) children(); 
+    mirror(vec)
+        children();
 } 
 
 module clip() {
@@ -79,16 +82,17 @@ module clip() {
     }
 }
 
-difference() {
-    card();
-    for(i = [0:hook_per_side-1])
-        translate([hook_margin+i*(hook_length+hook_margin), 0, 0])
-            hook();
-    for(i = [0:hook_per_side-1])
-        translate([hook_margin+i*(hook_length+hook_margin), full_height, 0])
-            mirror([0, 1, 0])
+round_corners(r=radius_rounded_corners)
+    difference() {
+        card();
+        for(i = [0:hook_per_side-1])
+            translate([hook_margin+i*(hook_length+hook_margin), 0, 0])
                 hook();
-    if(enable_clip)
-        translate([(full_width-clip_width-cutout_d/2-cutout_offset)/2, full_height/2])
-            clip();
-}
+        for(i = [0:hook_per_side-1])
+            translate([hook_margin+i*(hook_length+hook_margin), full_height, 0])
+                mirror([0, 1, 0])
+                    hook();
+        if(enable_clip)
+            translate([(full_width-clip_width-cutout_d/2-cutout_offset)/2, full_height/2])
+                clip();
+    }
